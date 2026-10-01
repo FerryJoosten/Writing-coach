@@ -1,0 +1,6 @@
+{
+  "name": "English Writing Coach – 5 HAVO",
+  "description": "Educational writing coach for Dutch 5 HAVO students providing structured, category-by-category B1/B2 feedback and revision tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
