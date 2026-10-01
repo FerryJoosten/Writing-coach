@@ -148,8 +148,20 @@ export default function App() {
         });
 
         if (!directRes.ok) {
-          const errData = await directRes.json().catch(() => ({}));
-          throw new Error(errData.error || 'Serverfout bij het ophalen van feedback.');
+          let errorMsg = `Serverfout (${directRes.status})`;
+          try {
+            const errData = await directRes.json();
+            if (errData && errData.error) {
+              errorMsg = errData.error;
+            }
+          } catch {
+            if (directRes.status === 404) {
+              errorMsg = 'De API route (/api/coach/feedback) werd niet gevonden op Vercel (HTTP 404). Zorg dat je de nieuwste code (met de /api map en vercel.json) naar je GitHub repository hebt gepusht.';
+            } else if (directRes.status === 500) {
+              errorMsg = 'Serverfout (HTTP 500). Controleer of de variabele GEMINI_API_KEY in Vercel is ingevuld en of je daarna op "Redeploy" hebt geklikt.';
+            }
+          }
+          throw new Error(errorMsg);
         }
 
         const directData = await directRes.json();
